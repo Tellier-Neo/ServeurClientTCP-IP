@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ServeurClass</class>
+ <widget class="QMainWindow" name="ServeurClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Serveur</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QPushButton" name="startTcpServerButton">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>310</y>
+      <width>141</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Démarrer le serveur TCP</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="portInput">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>310</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infolabel_1">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>310</y>
+      <width>47</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="portInfoLabel">
+    <property name="geometry">
+     <rect>
+      <x>313</x>
+      <y>290</y>
+      <width>270</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="trafficInfoBox">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>256</width>
+      <height>261</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infolabel_2">
+    <property name="geometry">
+     <rect>
+      <x>345</x>
+      <y>2</y>
+      <width>80</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Requête reçue</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infolabel_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Température :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tempLabel">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>20</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="infolabel_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>32</y>
+      <width>89</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hygrométrie :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="hygroLabel">
+    <property name="geometry">
+     <rect>
+      <x>86</x>
+      <y>41</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="Serveur.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>startTcpServerButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ServeurClass</receiver>
+   <slot>startTcpServer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>520</x>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>startTcpServer()</slot>
+ </slots>
+</ui>
