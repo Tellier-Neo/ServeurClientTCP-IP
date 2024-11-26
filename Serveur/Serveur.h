@@ -16,10 +16,15 @@ public:
 private:
     Ui::ServeurClass ui;
     QTcpServer serverTCP;
-    void onReadyRead();
-
+    QTcpSocket* clientSocket;
+    QList<QTcpSocket*> clients;
+    bool status;
 
 private slots:
     void startTcpServer();
-
+    void onNewConnection();
+    void readRequest();
+    void clientDisconnected();
+ 
+   
 };

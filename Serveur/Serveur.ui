@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>597</width>
+    <height>172</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="startTcpServerButton">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>310</y>
+      <x>177</x>
+      <y>90</y>
       <width>141</width>
       <height>21</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QLineEdit" name="portInput">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>310</y>
+      <x>37</x>
+      <y>90</y>
       <width>113</width>
       <height>21</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QLabel" name="infolabel_1">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>310</y>
+      <x>7</x>
+      <y>90</y>
       <width>47</width>
       <height>20</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QLabel" name="portInfoLabel">
     <property name="geometry">
      <rect>
-      <x>313</x>
-      <y>290</y>
+      <x>40</x>
+      <y>70</y>
       <width>270</width>
       <height>13</height>
      </rect>
@@ -63,27 +63,17 @@
      <string/>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="trafficInfoBox">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>20</y>
-      <width>256</width>
-      <height>261</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="infolabel_2">
     <property name="geometry">
      <rect>
-      <x>345</x>
+      <x>333</x>
       <y>2</y>
-      <width>80</width>
+      <width>90</width>
       <height>13</height>
      </rect>
     </property>
     <property name="text">
-     <string>Requête reçue</string>
+     <string>Traffic du serveur</string>
     </property>
    </widget>
    <widget class="QLabel" name="infolabel_3">
@@ -138,13 +128,23 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="serverConsole">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>20</y>
+      <width>261</width>
+      <height>91</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>597</width>
      <height>20</height>
     </rect>
    </property>

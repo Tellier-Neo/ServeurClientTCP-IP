@@ -15,9 +15,9 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -31,12 +31,12 @@ public:
     QLineEdit *portInput;
     QLabel *infolabel_1;
     QLabel *portInfoLabel;
-    QTextBrowser *trafficInfoBox;
     QLabel *infolabel_2;
     QLabel *infolabel_3;
     QLabel *tempLabel;
     QLabel *infolabel_4;
     QLabel *hygroLabel;
+    QPlainTextEdit *serverConsole;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -45,27 +45,24 @@ public:
     {
         if (ServeurClass->objectName().isEmpty())
             ServeurClass->setObjectName(QString::fromUtf8("ServeurClass"));
-        ServeurClass->resize(600, 400);
+        ServeurClass->resize(597, 172);
         centralWidget = new QWidget(ServeurClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         startTcpServerButton = new QPushButton(centralWidget);
         startTcpServerButton->setObjectName(QString::fromUtf8("startTcpServerButton"));
-        startTcpServerButton->setGeometry(QRect(450, 310, 141, 21));
+        startTcpServerButton->setGeometry(QRect(177, 90, 141, 21));
         portInput = new QLineEdit(centralWidget);
         portInput->setObjectName(QString::fromUtf8("portInput"));
-        portInput->setGeometry(QRect(310, 310, 113, 21));
+        portInput->setGeometry(QRect(37, 90, 113, 21));
         infolabel_1 = new QLabel(centralWidget);
         infolabel_1->setObjectName(QString::fromUtf8("infolabel_1"));
-        infolabel_1->setGeometry(QRect(280, 310, 47, 20));
+        infolabel_1->setGeometry(QRect(7, 90, 47, 20));
         portInfoLabel = new QLabel(centralWidget);
         portInfoLabel->setObjectName(QString::fromUtf8("portInfoLabel"));
-        portInfoLabel->setGeometry(QRect(313, 290, 270, 13));
-        trafficInfoBox = new QTextBrowser(centralWidget);
-        trafficInfoBox->setObjectName(QString::fromUtf8("trafficInfoBox"));
-        trafficInfoBox->setGeometry(QRect(340, 20, 256, 261));
+        portInfoLabel->setGeometry(QRect(40, 70, 270, 13));
         infolabel_2 = new QLabel(centralWidget);
         infolabel_2->setObjectName(QString::fromUtf8("infolabel_2"));
-        infolabel_2->setGeometry(QRect(345, 2, 80, 13));
+        infolabel_2->setGeometry(QRect(333, 2, 90, 13));
         infolabel_3 = new QLabel(centralWidget);
         infolabel_3->setObjectName(QString::fromUtf8("infolabel_3"));
         infolabel_3->setGeometry(QRect(10, 10, 81, 31));
@@ -78,10 +75,13 @@ public:
         hygroLabel = new QLabel(centralWidget);
         hygroLabel->setObjectName(QString::fromUtf8("hygroLabel"));
         hygroLabel->setGeometry(QRect(86, 41, 47, 13));
+        serverConsole = new QPlainTextEdit(centralWidget);
+        serverConsole->setObjectName(QString::fromUtf8("serverConsole"));
+        serverConsole->setGeometry(QRect(330, 20, 261, 91));
         ServeurClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(ServeurClass);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 600, 20));
+        menuBar->setGeometry(QRect(0, 0, 597, 20));
         ServeurClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(ServeurClass);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -102,7 +102,7 @@ public:
         startTcpServerButton->setText(QCoreApplication::translate("ServeurClass", "D\303\251marrer le serveur TCP", nullptr));
         infolabel_1->setText(QCoreApplication::translate("ServeurClass", "Port :", nullptr));
         portInfoLabel->setText(QString());
-        infolabel_2->setText(QCoreApplication::translate("ServeurClass", "Requ\303\252te re\303\247ue", nullptr));
+        infolabel_2->setText(QCoreApplication::translate("ServeurClass", "Traffic du serveur", nullptr));
         infolabel_3->setText(QCoreApplication::translate("ServeurClass", "Temp\303\251rature :", nullptr));
         tempLabel->setText(QString());
         infolabel_4->setText(QCoreApplication::translate("ServeurClass", "Hygrom\303\251trie :", nullptr));

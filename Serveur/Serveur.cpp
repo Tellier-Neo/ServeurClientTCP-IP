@@ -1,37 +1,160 @@
-#include "Serveur.h"
+﻿#include "Serveur.h"
+#include "ui_Serveur.h"
 #include <qtcpserver.h>
-
+#include <qtcpsocket.h>
+#include <QRandomGenerator>
 
 Serveur::Serveur(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+	connect(&serverTCP, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
+
 }
 
 Serveur::~Serveur()
 {}
 
+void Serveur::onNewConnection()
+{
+    QTcpSocket* client = serverTCP.nextPendingConnection();
+	clients.append(client);
+	connect(client, SIGNAL(readyRead()), this, SLOT(readRequest()));
+    connect(client, SIGNAL(disconnected()), this, SLOT(clientDisconnected()));
+	ui.serverConsole->appendPlainText("Nouvelle connexion :" + client->peerAddress().toString() + "\n");
+}
+
+void Serveur::readRequest()
+{
+	QTcpSocket* client = qobject_cast<QTcpSocket*>(sender());
+	if (client == nullptr) { return; }
+	QByteArray data = client->readAll();
+	if (data.startsWith("Td") && data.endsWith("?") && data.length() == 5) {
+		int IdCapteur = data.mid(2, 2).toInt();
+		if (IdCapteur <= 0 || IdCapteur > 99)
+		{
+			ui.serverConsole->appendPlainText("Id du capteur invalide \n");
+			client->write("Capteur invalide");
+			return;
+			
+		}
+		ui.serverConsole->appendPlainText("Id du capteur :" + QString::number(IdCapteur) + "\n");
+		double TemperatureCelsius = QRandomGenerator::global()->bounded(-20, 37);
+		QString response;
+		ui.tempLabel->setText(QString::number(TemperatureCelsius) + "C");
+		ui.serverConsole->appendPlainText("Temperature generer" + QString::number(TemperatureCelsius) + "C" + "\n");
+		response = QString::number(TemperatureCelsius);
+		client->write(response.toUtf8());
+		ui.serverConsole->appendPlainText("Envoi de la temperature au client reussi \n" );
+		client->flush();
+		return;
+	}
+	if (data.startsWith("Tf") && data.endsWith("?") && data.length() == 5) {
+		int IdCapteur = data.mid(2, 2).toInt();
+		if (IdCapteur <= 0 || IdCapteur > 99)
+		{
+			ui.serverConsole->appendPlainText("Id du capteur invalide \n");
+			client->write("Capteur invalide");
+			return;
+			
+		}
+		ui.serverConsole->appendPlainText("Id du capteur :" + QString::number(IdCapteur) + "\n");
+		double TemperatureCelsius = QRandomGenerator::global()->bounded(-20, 37);
+		double TemperatureFahrenheit = (TemperatureCelsius * 9 / 5) + 32;
+		QString response;
+		response = QString::number(TemperatureFahrenheit);
+		ui.tempLabel->setText(QString::number(TemperatureFahrenheit)+ "F");
+		ui.serverConsole->appendPlainText("Temperature generer" + QString::number(TemperatureFahrenheit) + "F \n");
+		client->write(response.toUtf8());
+		ui.serverConsole->appendPlainText("Envoi de la temperature au client reussi \n ");
+		client->flush();
+		return;
+	}
+	if (data.startsWith("Hr") && data.endsWith("?") && data.length() == 5)
+	{
+		int IdCapteur = data.mid(2, 2).toInt();
+		if (IdCapteur <= 0 || IdCapteur > 99)
+		{
+			ui.serverConsole->appendPlainText("Id du capteur invalide \n");
+			client->write("Capteur invalide");
+			return;
+			
+		}
+		ui.serverConsole->appendPlainText("Id du capteur : " + QString::number(IdCapteur) + "\n");
+		double Hygrometrie = QRandomGenerator::global()->bounded(0, 99.9);
+		QString response;
+		response = QString::number(Hygrometrie);
+		ui.hygroLabel->setText(QString::number(Hygrometrie) + "%");
+		ui.serverConsole->appendPlainText("Hygrometrie generer :" + QString::number(Hygrometrie));
+        client->write(response.toUtf8());
+		ui.serverConsole->appendPlainText("Envoi de l'hygrometrie au client reussi \n ");
+        client->flush();
+		return;
+	}
+	else
+	{
+        ui.serverConsole->appendPlainText("Requete inconnue \n");
+        client->write("Requete inconnue");
+		return;
+	}
+
+}
+
+
+
+void Serveur::clientDisconnected()
+{
+	QTcpSocket* client = qobject_cast<QTcpSocket*>(sender());
+    	if (client == nullptr) { return; }
+    	ui.serverConsole->appendPlainText("Client deconnecter");
+    	client->disconnect();
+
+        
+}
+
+
+
 
 void Serveur::startTcpServer() {
+	if (status == false) {
+
 	
-	QString tcpPort = ui.portInput->text();
-	bool ok;
-	int port = tcpPort.toInt(&ok);
-	if (ok)
-	{
-		if (serverTCP.listen(QHostAddress("127.0.0.1"), port) == true)
+		QString tcpPort = ui.portInput->text();
+		bool ok;
+		int port = tcpPort.toInt(&ok);
+		if (ok)
 		{
-			ui.portInfoLabel->setText("Server started on port " + tcpPort);
+			if (serverTCP.listen(QHostAddress("127.0.0.1"), port))
+			{
+
+				ui.portInfoLabel->setText("Serveur demarrer sur le port :" + tcpPort);
+				ui.serverConsole->appendPlainText("Demarrage du serveur sur le port :" + tcpPort);
+				ui.startTcpServerButton->setText("Arreter le serveur");
+				status = true;
+				return;
+			}
+			else
+			{
+				ui.portInfoLabel->setText("Port deja utilise");
+				return;
+			}
 		}
-		else
-		{
-			ui.portInfoLabel->setText("Port deja utilise");
+		else {
+			ui.portInfoLabel->setText("Port invalide");
 			return;
 		}
 	}
-	else {
-		ui.portInfoLabel->setText("Port invalide");
-		return;
+	else if (status == true)
+	{
+        serverTCP.close();
+		status = false;
+        ui.portInfoLabel->setText("Serveur arreter");
+        ui.serverConsole->appendPlainText("Arret du serveur");
+
+        ui.startTcpServerButton->setText("Demarrer le serveur");
 	}
+	
+	
 }
+
 
