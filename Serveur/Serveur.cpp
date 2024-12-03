@@ -9,7 +9,6 @@ Serveur::Serveur(QWidget *parent)
 {
     ui.setupUi(this);
 	connect(&serverTCP, SIGNAL(newConnection()), this, SLOT(onNewConnection()));
-
 }
 
 Serveur::~Serveur()
@@ -36,14 +35,15 @@ void Serveur::readRequest()
 			ui.serverConsole->appendPlainText("Id du capteur invalide \n");
 			client->write("Capteur invalide");
 			return;
-			
 		}
 		ui.serverConsole->appendPlainText("Id du capteur :" + QString::number(IdCapteur) + "\n");
 		double TemperatureCelsius = QRandomGenerator::global()->bounded(-20, 37);
+		QString sign = "+";
+		if (TemperatureCelsius < 0) sign = "-";
 		QString response;
 		ui.tempLabel->setText(QString::number(TemperatureCelsius) + "C");
-		ui.serverConsole->appendPlainText("Temperature generer" + QString::number(TemperatureCelsius) + "C" + "\n");
-		response = QString::number(TemperatureCelsius);
+		ui.serverConsole->appendPlainText("Temperature generee" + QString::number(TemperatureCelsius) + "C" + "\n");
+		response = "Td" + QString::number(IdCapteur) + "," + sign + QString::number(TemperatureCelsius, 'f', 2).replace(",", ".");
 		client->write(response.toUtf8());
 		ui.serverConsole->appendPlainText("Envoi de la temperature au client reussi \n" );
 		client->flush();
@@ -55,16 +55,17 @@ void Serveur::readRequest()
 		{
 			ui.serverConsole->appendPlainText("Id du capteur invalide \n");
 			client->write("Capteur invalide");
-			return;
-			
+			return;	
 		}
 		ui.serverConsole->appendPlainText("Id du capteur :" + QString::number(IdCapteur) + "\n");
 		double TemperatureCelsius = QRandomGenerator::global()->bounded(-20, 37);
 		double TemperatureFahrenheit = (TemperatureCelsius * 9 / 5) + 32;
+		QString sign = "+";
+		if (TemperatureFahrenheit < 0) sign = "-";
 		QString response;
-		response = QString::number(TemperatureFahrenheit);
+		response = "Tf" + QString::number(IdCapteur) + "," + sign + QString::number(TemperatureFahrenheit, 'f', 2).replace(",", ".");
 		ui.tempLabel->setText(QString::number(TemperatureFahrenheit)+ "F");
-		ui.serverConsole->appendPlainText("Temperature generer" + QString::number(TemperatureFahrenheit) + "F \n");
+		ui.serverConsole->appendPlainText("Temperature generee" + QString::number(TemperatureFahrenheit) + "F \n");
 		client->write(response.toUtf8());
 		ui.serverConsole->appendPlainText("Envoi de la temperature au client reussi \n ");
 		client->flush();
@@ -81,13 +82,13 @@ void Serveur::readRequest()
 			
 		}
 		ui.serverConsole->appendPlainText("Id du capteur : " + QString::number(IdCapteur) + "\n");
-		double Hygrometrie = QRandomGenerator::global()->bounded(0, 99.9);
+		double Hygrometrie = QRandomGenerator::global()->bounded(0, 99.99);
 		QString response;
-		response = QString::number(Hygrometrie);
+		response = "Hr" + QString::number(IdCapteur) + "," + QString::number(Hygrometrie, 'f', 2).replace(",", ".");
 		ui.hygroLabel->setText(QString::number(Hygrometrie) + "%");
-		ui.serverConsole->appendPlainText("Hygrometrie generer :" + QString::number(Hygrometrie));
+		ui.serverConsole->appendPlainText("Hygometrie generee :" + QString::number(Hygrometrie));
         client->write(response.toUtf8());
-		ui.serverConsole->appendPlainText("Envoi de l'hygrometrie au client reussi \n ");
+		ui.serverConsole->appendPlainText("Envoi de l'hygometrie au client reussi \n ");
         client->flush();
 		return;
 	}
@@ -97,10 +98,7 @@ void Serveur::readRequest()
         client->write("Requete inconnue");
 		return;
 	}
-
 }
-
-
 
 void Serveur::clientDisconnected()
 {
